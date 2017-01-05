@@ -1,16 +1,3 @@
-
-if (window.addEventListener){ window.addEventListener("message", function(event) { if(event.data.length >= 22) { if( event.data.substr(0, 22) == "__MM-LOCATION.REDIRECT") location = event.data.substr(22); } }, false); } else if (window.attachEvent){ window.attachEvent("message", function(event) { if( event.data.length >= 22) { if ( event.data.substr(0, 22) == "__MM-LOCATION.REDIRECT") location = event.data.substr(22); } }, false); } 
-
- var selectedTeam, selectedState, selectedCity, queryTeam;
-  $(".team").on("click", function(){
- 
-    $("#resultsTarget").empty();
-     selectedTeam = $(".team").data().team
-     selectedState= $(".team").data().state
-     selectedCity= $(".team").data().city
-     queryTeam = selectedCity + selectedTeam;
-  });
-   
 $("#buttonSearch").on("click", function(){
  
     $("#resultsTarget").empty(); // Clear previous search result
@@ -65,6 +52,29 @@ $("#buttonSearch").on("click", function(){
     .done(function(weatherData) {
       console.log(weatherData)
      });
+
+var searchFor = $('#sTerm')[0].value
+    var numRecs = 6;
+
+    var  appKey = "bd02f499a8474a05bd68ce25460bbc9f"
+  
+    var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";  
+      url += "?api-key=" +appKey ;
+      url += "&q=" +  queryTeam ;
+   
+      $.ajax({
+        url: url,
+        method: 'GET',
+      })
+      .done(function(results) { 
+        
+          console.log(results);
+
+        })
+
 });
 
+
+
+  
 
