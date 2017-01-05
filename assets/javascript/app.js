@@ -64,7 +64,7 @@ $("#buttonSearch").on("click", function(){
       console.log(weatherData)
      });
 
-var searchFor = $('#sTerm')[0].value
+  var searchFor = selectedCity + " " + selectedTeam;
     var numRecs = 6;
 
     var  appKey = "bd02f499a8474a05bd68ce25460bbc9f"
