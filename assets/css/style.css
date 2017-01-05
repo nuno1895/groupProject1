@@ -1,0 +1,43 @@
+/* Debugging Purposes */
+/*div {
+  border: 1px dashed pink;
+}
+
+div[class^='container']{
+  border: 2px brown solid;
+}*/
+
+/* Styles */
+.container {
+	padding: 0;
+}
+
+.jumbotron {
+	background-color: #253964;
+	color: white;
+	text-align: center;
+}
+
+#formOne {
+	border: 1px solid #32485C;
+	padding: 0;
+}
+
+#formOne button{
+	background-color: #A0B0AF;
+	color:white;
+	padding: 13px;
+}
+
+#formOne h4 {
+	background-color: #32485C;
+	color:white;
+	margin-top: 0px;
+	padding: 10px;
+}
+
+#formOne form {
+	margin: 10px;
+	color: #868B8F;
+
+}
