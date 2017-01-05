@@ -1,3 +1,14 @@
+
+ var selectedTeam, selectedState, selectedCity, queryTeam;
+  $(".team").on("click", function(){
+ 
+    $("#resultsTarget").empty();
+     selectedTeam = $(".team").data().team
+     selectedState= $(".team").data().state
+     selectedCity= $(".team").data().city
+     queryTeam = selectedCity + selectedTeam;
+  });
+   
 $("#buttonSearch").on("click", function(){
  
     $("#resultsTarget").empty(); // Clear previous search result
