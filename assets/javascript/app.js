@@ -58,7 +58,7 @@ $("#buttonSearch").on("click", function(){
     }); 
     var weatherURL = "https://api.wunderground.com/api/517830656e79f22a/hourly10day/q/"
     $.ajax({
-      url: weatherURL + selectedState + "/" + selectedCity,
+      url: weatherURL + selectedState + "/" + selectedCity + ".json",
       method: "GET",
     })
     
