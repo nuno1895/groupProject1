@@ -70,7 +70,7 @@ $("#buttonSearch").on("click", function(){
     var  appKey = "bd02f499a8474a05bd68ce25460bbc9f"
   
     var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";  
-      url += "?api-key=" +appKey ;
+      url += "?api-key=" + appKey ;
       url += "&q=" +  queryTeam ;
    
       $.ajax({
@@ -80,7 +80,7 @@ $("#buttonSearch").on("click", function(){
       .done(function(results) { 
         
           console.log(results);
-
+          console.log(results);
         })
 
 });
