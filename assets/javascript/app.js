@@ -80,7 +80,18 @@ $("#buttonSearch").on("click", function(){
       .done(function(results) { 
         
           console.log(results);
-          console.log(results);
+        })
+
+    var espnURL = "https://newsapi.org/v1/articles?source=espn&sortBy=top&apiKey=3ebf094d9f3c4221a56ceb144325c77f"
+
+      $.ajax({
+        url: espnURL,
+        method: 'GET',
+      })
+
+      .done(function(headlines) { 
+        
+          console.log(headlines);
         })
 
 });
