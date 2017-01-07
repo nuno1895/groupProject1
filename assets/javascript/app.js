@@ -164,9 +164,9 @@ $("#buttonSearch").on("click", function(){
 
 });
 
-$('#articles').children()[5].style.display = "none"
-$('#articles').children()[6].style.display = "none"
-$('#articles').children()[7].style.display = "none"
+$('#articles').children()[5].style.display = "none";
+$('#articles').children()[6].style.display = "none";
+$('#articles').children()[7].style.display = "none";
 
 
 
