@@ -1,11 +1,11 @@
-mlbTeams = ["Orioles","Diamondbacks", "RedSox", "Braves", "WhiteSox",   "Cubs", "Indians", "Tigers", "Rockies", "Astros", "Dodgers", "Royals",  "Marlins", "Angels", "Brewers", "Twins", "Mets", "Yankees", "Phillies", "Athletics", "Pirates", "Mariners", "Padres", "Rays", "Giants", "Rangers", "Cardinals", "BlueJays", "Nationals"]
+// mlbTeams = ["Orioles","Diamondbacks", "RedSox", "Braves", "WhiteSox",   "Cubs", "Indians", "Tigers", "Rockies", "Astros", "Dodgers", "Royals",  "Marlins", "Angels", "Brewers", "Twins", "Mets", "Yankees", "Phillies", "Athletics", "Pirates", "Mariners", "Padres", "Rays", "Giants", "Rangers", "Cardinals", "BlueJays", "Nationals"]
 
-for (var i = 0; i < mlbTeams.length; i++) {
-  var img = $("<img>");
-        img.attr("src", "assets/images/" + mlbTeams[i]+ ".jpg");
-        img.attr("alt", mlbTeams[i]);
-  $('#logosHere').append(img)
-}
+// for (var i = 0; i < mlbTeams.length; i++) {
+//   var img = $("<img>");
+//         img.attr("src", "assets/images/" + mlbTeams[i]+ ".jpg");
+//         img.attr("alt", mlbTeams[i]);
+//   $('#logosHere').append(img)
+// }
  var selectedTeam, selectedState, selectedCity, queryTeam;
   $(".team").on("click", function(){
  
