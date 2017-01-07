@@ -155,6 +155,9 @@ $("#buttonSearch").on("click", function(){
 
          //5) update the DOM with the results Container;
          $("#resultsTarget").append(resultsContainer);
+$('#articles').children()[5].style.display = "none";
+$('#articles').children()[6].style.display = "none";
+$('#articles').children()[7].style.display = "none";
 
        }) //closes .done() promise
        .fail(function(error){
@@ -164,9 +167,7 @@ $("#buttonSearch").on("click", function(){
 
 });
 
-$('#articles').children()[5].style.display = "none";
-$('#articles').children()[6].style.display = "none";
-$('#articles').children()[7].style.display = "none";
+
 
 
 
