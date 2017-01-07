@@ -41,3 +41,13 @@ div[class^='container']{
 	color: #868B8F;
 
 }
+img {
+	margin: 9px;
+}
+img:hover {
+	cursor: pointer;
+}
+img:mouser-over {
+	height:150%;
+	width:150%;
+}
