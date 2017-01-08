@@ -1,16 +1,23 @@
-var howLong = moment("20170402", "YYYYMMDD").fromNow(); 
+function countDown(){
 var dateNow = new Date();
 var epochMilliSecs = dateNow.getTime();
 var epochTimeNow = Math.floor(epochMilliSecs/1000);;
 var openingDayEpoch = 1491183000;
 var epochDelta = openingDayEpoch - epochTimeNow;
 
-var daysToOD= Math.floor(epochDelta / 86400) ;
-var hoursToOD = (epochDelta / 86400) ;
-console.log("days" + daysToOD + "hours" + hoursToOD);
+var daysToOD = Math.floor(epochDelta / 86400) ;
+var hoursToOD = Math.floor((epochDelta % 86400)/ 3600);
+var minsToOD = Math.floor(((epochDelta % 86400) % 3600)/60);
+var secsToOD = Math.floor((((epochDelta % 86400) % 3600) % 60));
+
 var p = $("<p>");
-        p.text(howLong);
+        p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
   $('#openingDay').append(p)
+}
+countDown();
+
+setInterval(countDown, 1000);
+
 
 var selectedTeam, selectedState, selectedCity, queryTeam;
   $(".team").on("click", function(){
