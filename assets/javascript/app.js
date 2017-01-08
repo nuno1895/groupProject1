@@ -1,7 +1,10 @@
 var howLong = moment("20170402", "YYYYMMDD").fromNow(); 
 var dateNow = new Date();
-var epochMilliSecs = d.getTime();
+var epochMilliSecs = dateNow.getTime();
 var epochTimeNow = epochMilliSecs*1000;
+
+var openingDayEpoch = 1491183000;
+var epochDelta = openingDayEpoch - epochTimeNow;
 
 var p = $("<p>");
         p.text(howLong);
