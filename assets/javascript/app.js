@@ -1,46 +1,52 @@
 //declaring Global Variables
-var selectedTeam, selectedState, selectedCity, queryTeam,timesTeamQuery, selectedTimesTeam
+var selectedTeam, selectedState, selectedCity, queryTeam,timesTeamQuery, selectedTimesTeam ;
 
-var daysToOD ;
-var hoursToOD; 
-var minsToOD ;
-var secsToOD ;
+///////////////////////////////////////////////////////////////////////////////////////////
+// Countdown to Opening day Calculations
+var daysToOD ,hoursToOD , minsToOD ,secsToOD, epochDelta, epochTimeNow ;
+var p1 = $("<p>Countdown To Opening Day 2016</p><p>Opening Day is April 2, 2017</p><p>First game starts </p>");
 var p = $("<p>");
-    p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
-var p1 = $("<p>Countdown To Opening Day 2016</p><p>Opening Day is April 2, 2017</p><p>First game starts </p>");  
+  
+  p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
   $('#openingDay').append(p1);
 
 function countDown(){
-var dateNow = new Date();
-var epochMilliSecs = dateNow.getTime();
-var epochTimeNow = Math.floor(epochMilliSecs/1000);;
-var openingDayEpoch = 1491183000;
-var epochDelta = openingDayEpoch - epochTimeNow;
+  var dateNow = new Date();
+  var epochMilliSecs = dateNow.getTime();
+  epochTimeNow = Math.floor(epochMilliSecs/1000);;
+  var openingDayEpoch = 1491183000;
 
- daysToOD = Math.floor(epochDelta / 86400) ;
- hoursToOD = Math.floor((epochDelta % 86400)/ 3600);
- minsToOD = Math.floor(((epochDelta % 86400) % 3600)/60);
- secsToOD = Math.floor((((epochDelta % 86400) % 3600) % 60));
+  epochDelta = openingDayEpoch - epochTimeNow;
+
+   daysToOD = Math.floor(epochDelta / 86400) ;
+   hoursToOD = Math.floor((epochDelta % 86400)/ 3600);
+   minsToOD = Math.floor(((epochDelta % 86400) % 3600)/60);
+   secsToOD = Math.floor((((epochDelta % 86400) % 3600) % 60));
  
- p = $("<p>");
-        p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
-  $('#openingDay').html(p1).append(p)
+    p = $("<p>");
+    p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
+    $('#openingDay').html(p1).append(p)
 }
+
 countDown();
 setInterval(countDown, 1000);
 
+if (epochDelta < 0){
+  $('#openingDay').remove();
+}
+///////////////////////////////////////////////////////////////////////////////////////////
 //start of button click function for favorite team
 $(document).on("click", ".team" , function(){
   
   $("#resultsTarget").empty(); // Clear previous search result
-  console.log(this)
+ 
   selectedTeam = $(this).data("team")
   selectedState= $(this).data("state")
   selectedCity= $(this).data("city")
   selectedTimesTeam = $(this).data("teamtimes")
   timesTeamQuery = selectedTimesTeam.toLowerCase()
   queryTeam = selectedTeam;
-  console.log(queryTeam, timesTeamQuery)
+  
   
   var stateId, startDate, endDate; //  initialize variables for search
   // 1) get content from the form
@@ -54,7 +60,7 @@ $(document).on("click", ".team" , function(){
   var API_key_value = "&apikey=OtZP0uNORyGGudirFRnAFeu6VJ6ix8Kq";
   
   var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?keyword=" + selectedTeam + API_key_value;
-  console.log(queryURL);
+ 
   
   // 3) Make Ajax call
   $.ajax({
@@ -64,7 +70,7 @@ $(document).on("click", ".team" , function(){
   .done(function(response) {
     
     var eventsArray = response._embedded.events; // gets an array of articles
-    console.log(eventsArray);
+    
     
     // 1) create a target div to append each event to!
     var resultsContainer = $("<div>");
@@ -77,44 +83,17 @@ $(document).on("click", ".team" , function(){
       url = event.url
       startTime = event.dates.start.localTime
       localStartDate = event.dates.start.localDate
-      
-      // console.log("outside function", localStartDate);
-      
-      // var weatherURL = "https://api.wunderground.com/api/517830656e79f22a/hourly10day/q/"
-      
-      // $.ajax({
-      //   url: weatherURL + selectedState + "/" + selectedCity + ".json",
-      //   method: "GET",
-      // })
-      
-      // .done(function(weatherData) {
-      //     //console.log("test for weather: " , localStartDate);
-      
-      //     //console.log(weatherData);
-      //     console.log(weatherData.hourly_forecast)
-      // });
-      
-      
       $("#event-table > tbody").append("<tr><td>" + name + "</td><td>" + localStartDate + "</td><td>" + startTime + "</td><td>" + "</td></tr>");
-    });
-    
-    
-    
+    });    
   });
   
-  var numRecs = 5;
+
   
   var  appKey = "bd02f499a8474a05bd68ce25460bbc9f"
-  
-  //remove spaces from team string for sreach
-  
-  
   var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
   url += "?api-key=" + appKey ;
   url += "&q=" +  timesTeamQuery;
   
-  console.log(url);
-
   $.ajax({
     url: url,
     method: 'GET',
@@ -122,7 +101,15 @@ $(document).on("click", ".team" , function(){
   .done(function(object){
     var articlesArray = object.response.docs; // gets an array of articles
     // 1) create a target div to append each article to!
-    console.log(articlesArray)
+    
+
+    if (articlesArray.length > 5){
+      var numToPop = articlesArray.length - 5;
+      for (var i = 0; i < numToPop; i++) {
+       articlesArray.pop();
+      }
+    }
+    
     var resultsContainer = $("<div id=articles>");
     // 2) loop through the array of articles & get key data
     articlesArray.forEach(function(article){
@@ -162,9 +149,7 @@ $(document).on("click", ".team" , function(){
         // .append( $("<a>").attr("href", articleURL) )
         articleWrapper.append(mediaObject);
       }
-      
-      
-      
+
       // 3c) Get the main contents of the article
       
       var mediaBody = $("<div>").addClass("media-body")
@@ -184,21 +169,33 @@ $(document).on("click", ".team" , function(){
     
     //5) update the DOM with the results Container;
     $("#resultsTarget").append(resultsContainer);
-    $('#articles').children()[5].style.display = "none";
-    $('#articles').children()[6].style.display = "none";
-    $('#articles').children()[7].style.display = "none";
     
   }) //closes .done() promise
   .fail(function(error){
     // console.log(error);
     $("#resultsTarget").append( $("<h4>").text("Sorry, could not load data.") );
   })
-  
+
+
+var weatherQueryEpoch = (moment("1/15/2018 9:00").valueOf())/1000
+var weatherTimeDelta = weatherQueryEpoch-epochTimeNow;
+
+if (weatherTimeDelta <= 864000) {
+    console.log("the dates are within 10 days");
+    var weatherURL = "https://api.wunderground.com/api/517830656e79f22a/hourly10day/q/"
+    $.ajax({
+         url: weatherURL + selectedState + "/" + selectedCity + ".json",
+         method: "GET",
+          })
+           .done(function(weatherData) {
+            var weatherHour = Math.floor(weatherTimeDelta / 3600);
+            var test = weatherData
+              console.log(test.hourly_forecast[weatherHour])
+          })
+}
+else {
+  console.log("over 10 days")
+}
+
 });
-
-
-
-
-
-  
 
