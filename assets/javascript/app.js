@@ -1,19 +1,21 @@
-
- var selectedTeam, selectedState, selectedCity, queryTeam;
-  $(".team").on("click", function(){
- 
-    $("#resultsTarget").empty();
-     selectedTeam = $(".team").data().team
-     selectedState= $(".team").data().state
-     selectedCity= $(".team").data().city
-     queryTeam = selectedCity + selectedTeam;
-  });
-
 var howLong = moment("20170402", "YYYYMMDD").fromNow(); 
+var dateNow = new Date();
+var epochMilliSecs = d.getTime();
+var epochTimeNow = epochMilliSecs*1000;
 
 var p = $("<p>");
         p.text(howLong);
   $('#openingDay').append(p)
+
+var selectedTeam, selectedState, selectedCity, queryTeam;
+  $(".team").on("click", function(){
+ 
+$("#resultsTarget").empty();
+     selectedTeam = $(this).data().team
+     selectedState= $(this).data().state
+     selectedCity= $(this).data().city
+     queryTeam = selectedCity + selectedTeam;
+  });
 $("#buttonSearch").on("click", function(){
  
     $("#resultsTarget").empty(); // Clear previous search result
@@ -40,8 +42,7 @@ $("#buttonSearch").on("click", function(){
     .done(function(response) {
 
       var eventsArray = response._embedded.events; // gets an array of articles
-        console.log(eventsArray);
-
+      
       // 1) create a target div to append each event to!
         var resultsContainer = $("<div>");
       // 2) loop through the array of articles & get key data
@@ -155,9 +156,9 @@ $("#buttonSearch").on("click", function(){
 
          //5) update the DOM with the results Container;
          $("#resultsTarget").append(resultsContainer);
-$('#articles').children()[5].style.display = "none";
-$('#articles').children()[6].style.display = "none";
-$('#articles').children()[7].style.display = "none";
+          $('#articles').children()[5].style.display = "none";
+          $('#articles').children()[6].style.display = "none";
+          $('#articles').children()[7].style.display = "none";
 
        }) //closes .done() promise
        .fail(function(error){
