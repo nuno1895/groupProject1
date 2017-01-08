@@ -23,9 +23,9 @@ function countDown(){
    minsToOD = Math.floor(((epochDelta % 86400) % 3600)/60);
    secsToOD = Math.floor((((epochDelta % 86400) % 3600) % 60));
  
-    p = $("<p>");
-    p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
-    $('#openingDay').html(p1).append(p)
+  p = $("<p>");
+  p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
+  $('#openingDay').html(p1).append(p)
 }
 
 countDown();
@@ -59,8 +59,12 @@ $(document).on("click", ".team" , function(){
   // 2) build search query
   var API_key_value = "&apikey=OtZP0uNORyGGudirFRnAFeu6VJ6ix8Kq";
   
-  var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?keyword=" + selectedTeam + API_key_value;
- 
+  var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?"
+
+  var ticketKey = "&keyword=" + selectedTeam + API_key_value;
+  
+  queryURL +=  ticketKey + "&classification=Baseball" ;
+  // if (startDate == "" && endDate == ""){}
   
   // 3) Make Ajax call
   $.ajax({
@@ -88,12 +92,13 @@ $(document).on("click", ".team" , function(){
   });
   
 
-  
+///////////////////////////////////////////////////////////////////////////////////////////
+// NY Times Search
   var  appKey = "bd02f499a8474a05bd68ce25460bbc9f"
   var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
   url += "?api-key=" + appKey ;
   url += "&q=" +  timesTeamQuery;
-  
+   console.log(url);
   $.ajax({
     url: url,
     method: 'GET',
@@ -111,6 +116,7 @@ $(document).on("click", ".team" , function(){
     }
     
     var resultsContainer = $("<div id=articles>");
+    console.log(articlesArray);
     // 2) loop through the array of articles & get key data
     articlesArray.forEach(function(article){
       // initialize variables
@@ -131,11 +137,11 @@ $(document).on("click", ".team" , function(){
         // assume now there is content here
         // loop through the array
         multimediaArray.forEach(function(media){
-          if (media.subtype === "thumbnail"){
+          if (media.subtype != ""){
             // console.log(this); // window!!
             // console.log(media);
             // debugger;
-            thumbnailURL = media.url;
+            thumbnailURL = "https://static01.nyt.com/" + media.url;
           }
         }) // exits forEach loop
       }
@@ -144,7 +150,7 @@ $(document).on("click", ".team" , function(){
         var mediaObject = $("<div>").addClass("media-left")
         .append( $("<img>")
         .addClass("media-object")
-        .attr("src", multimediaArray[0] + thumbnailURL)
+        .attr("src",thumbnailURL)
         );
         // .append( $("<a>").attr("href", articleURL) )
         articleWrapper.append(mediaObject);
@@ -177,11 +183,10 @@ $(document).on("click", ".team" , function(){
   })
 
 
-var weatherQueryEpoch = (moment("1/15/2018 9:00").valueOf())/1000
+var weatherQueryEpoch = (moment("1/15/2017 9:00").valueOf())/1000
 var weatherTimeDelta = weatherQueryEpoch-epochTimeNow;
 
 if (weatherTimeDelta <= 864000) {
-    console.log("the dates are within 10 days");
     var weatherURL = "https://api.wunderground.com/api/517830656e79f22a/hourly10day/q/"
     $.ajax({
          url: weatherURL + selectedState + "/" + selectedCity + ".json",
@@ -189,12 +194,29 @@ if (weatherTimeDelta <= 864000) {
           })
            .done(function(weatherData) {
             var weatherHour = Math.floor(weatherTimeDelta / 3600);
-            var test = weatherData
-              console.log(test.hourly_forecast[weatherHour])
+            var tenDayForecast = weatherData;
+            tenDayForecast = tenDayForecast.hourly_forecast[weatherHour];
+              var temp = tenDayForecast.temp.english;
+              var feelsLike =tenDayForecast.feelslike.english;
+              var condition = tenDayForecast.wx;
+              var icon = tenDayForecast.icon_url;
+              var wind = tenDayForecast.wspd.english
           })
 }
 else {
-  console.log("over 10 days")
+  var weatherURL = "https://api.wunderground.com/api/517830656e79f22a/history_"
+  var lastYearDate = "20160115";
+      weatherURL = weatherURL + lastYearDate + "/q/" + selectedState + "/" + selectedCity + ".json",
+      console.log(weatherURL);
+    $.ajax({
+         url: weatherURL + lastYearDate + "/q/" + selectedState + "/" + selectedCity + ".json",
+         method: "GET",
+          })
+           .done(function(historicalWeather) {
+              var lastYearWeather = historicalWeather;
+              var maxTemp = lastYearWeather.history.dailysummary[0].maxtempi
+              var minTemp = lastYearWeather.history.dailysummary[0].mintempi
+          })
 }
 
 });
