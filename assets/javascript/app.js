@@ -1,5 +1,19 @@
 //declaring Global Variables
 var selectedTeam, selectedState, selectedCity, queryTeam,timesTeamQuery, selectedTimesTeam ;
+$("#resultsSectionId").hide();
+$("#clearButton").hide();
+
+
+var config = {
+   apiKey: "AIzaSyB5CwFc0sgIaz5PNkMCPVvp9LWO6GClfNg",
+   authDomain: "rcbgroup1.firebaseapp.com",
+   databaseURL: "https://rcbgroup1.firebaseio.com",
+   storageBucket: "rcbgroup1.appspot.com",
+   messagingSenderId: "444807120694"
+ };
+ firebase.initializeApp(config);
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Countdown to Opening day Calculations
@@ -39,6 +53,8 @@ if (epochDelta < 0){
 $(document).on("click", ".team" , function(){
   
   $("#resultsTarget").empty(); // Clear previous search result
+  $("#resultsSectionId").show();
+  $("#clearButton").show();
  
   selectedTeam = $(this).data("team")
   selectedState= $(this).data("state")
@@ -79,18 +95,31 @@ $(document).on("click", ".team" , function(){
     // 1) create a target div to append each event to!
     var resultsContainer = $("<div>");
     // 2) loop through the array of articles & get key data
-    eventsArray.forEach(function(event){
-      // initialize variables
+    for (var count1 = 0; count1 < eventsArray.length; count1++) {
       var name, eventUrl;
-      // set variables
+      var gameEvent = "GE" ;
+      var gameDay = "GD";
+      var gameTime= "GT";
+      var event = eventsArray[count1];
       name = event.name;
-      url = event.url
-      startTime = event.dates.start.localTime
-      localStartDate = event.dates.start.localDate
-      $("#event-table > tbody").append("<tr><td>" + name + "</td><td>" + localStartDate + "</td><td>" + startTime + "</td><td>" + "</td></tr>");
-    });    
+      eventUrl = event.url; 
+      startTime = event.dates.start.localTime ;
+      localStartDate = event.dates.start.localDate;
+      localStartDate = moment(localStartDate).calendar();
+      gameEvent += count1;
+      gameDay += count1;
+      gameTime += count1;
+      $("#event-table > tbody").append("<tr data-toggle='modal' data-target='#Modal1' class='gameRow'><td id=" + gameEvent + ">" + name + "</td><td id=" + gameDay +">" + localStartDate +"</td><td id=" + gameTime +">" +startTime + "</td></tr>");
+    }
   });
   
+//////////////////////////////////////////////////////////////////////////////////////////
+///Clear Results Button
+  $("#clearResults").on('click', function() {
+    $("tbody").empty();
+    $("#resultsTarget").empty();
+  });
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // NY Times Search
@@ -119,11 +148,11 @@ url += '?' + $.param({
     }
     
     var resultsContainer = $("<div id=articles>");
-    console.log(articlesArray);
+    
     // 2) loop through the array of articles & get key data
     articlesArray.forEach(function(article){
       // initialize variables
-      var title, snippetText, date, articleURL, multimediaArray, thumbnailURL;
+      var title, snippetText, date, articleURL, multimediaArray, thumbnailURL, dateFormat;
       // set variables
       title = article.headline.main;
       // snippetText = article.lead_paragraph;
@@ -132,6 +161,7 @@ url += '?' + $.param({
       articleURL = article.web_url;
       multimediaArray = article.multimedia;
       thumbnailURL = undefined; // assume its not there first
+      dateFormat = moment(date).format("MM/DD/YYYY h:m:s A");
       
       var articleWrapper = $("<div>").addClass("media col-sm-12");
       // 3b) check to see if article has a thumbnail image to addClass
@@ -141,9 +171,6 @@ url += '?' + $.param({
         // loop through the array
         multimediaArray.forEach(function(media){
           if (media.subtype != ""){
-            // console.log(this); // window!!
-            // console.log(media);
-            // debugger;
             thumbnailURL = "https://static01.nyt.com/" + media.url;
           }
         }) // exits forEach loop
@@ -165,7 +192,7 @@ url += '?' + $.param({
       
       .append( $("<h4>").addClass("media-heading").text(title) )
       .append( $("<p>").text(snippetText) )
-      .append( $("<p>").text(date) )
+      .append( $("<p>").text(dateFormat) )
       .append( $("<a>").attr("href", articleURL)
       .attr("target", "_blank")
       .html("<p>Read More</p>") );
@@ -185,42 +212,58 @@ url += '?' + $.param({
     $("#resultsTarget").append( $("<h4>").text("Sorry, could not load data.") );
   })
 
-
-var weatherQueryEpoch = (moment("1/15/2017 9:00").valueOf())/1000
-var weatherTimeDelta = weatherQueryEpoch-epochTimeNow;
-
-if (weatherTimeDelta <= 864000) {
-    var weatherURL = "https://api.wunderground.com/api/517830656e79f22a/hourly10day/q/"
-    $.ajax({
-         url: weatherURL + selectedState + "/" + selectedCity + ".json",
-         method: "GET",
-          })
-           .done(function(weatherData) {
-            var weatherHour = Math.floor(weatherTimeDelta / 3600);
-            var tenDayForecast = weatherData;
-            tenDayForecast = tenDayForecast.hourly_forecast[weatherHour];
-              var temp = tenDayForecast.temp.english;
-              var feelsLike =tenDayForecast.feelslike.english;
-              var condition = tenDayForecast.wx;
-              var icon = tenDayForecast.icon_url;
-              var wind = tenDayForecast.wspd.english
-          })
-}
-else {
-  var weatherURL = "https://api.wunderground.com/api/517830656e79f22a/history_"
-  var lastYearDate = "20160115";
-      weatherURL = weatherURL + lastYearDate + "/q/" + selectedState + "/" + selectedCity + ".json",
-      console.log(weatherURL);
-    $.ajax({
-         url: weatherURL + lastYearDate + "/q/" + selectedState + "/" + selectedCity + ".json",
-         method: "GET",
-          })
-           .done(function(historicalWeather) {
-              var lastYearWeather = historicalWeather;
-              var maxTemp = lastYearWeather.history.dailysummary[0].maxtempi
-              var minTemp = lastYearWeather.history.dailysummary[0].mintempi
-          })
-}
-
 });
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+///Weather API
+function runWeather() {
+    var weatherQueryEpoch = (moment("1/15/2018 9:00").valueOf())/1000
+    var weatherTimeDelta = weatherQueryEpoch-epochTimeNow;
+
+      if (weatherTimeDelta <= 864000) {
+          var weatherURL = "https://api.wunderground.com/api/517830656e79f22a/hourly10day/q/"
+          $.ajax({
+               url: weatherURL + selectedState + "/" + selectedCity + ".json",
+               method: "GET",
+                })
+                 .done(function(weatherData) {
+                    var weatherHour = Math.floor(weatherTimeDelta / 3600);
+                    var tenDayForecast = weatherData;
+                        tenDayForecast = tenDayForecast.hourly_forecast[weatherHour];
+                          var temp = tenDayForecast.temp.english;
+                          var feelsLike =tenDayForecast.feelslike.english;
+                          var condition = tenDayForecast.wx;
+                          var icon = tenDayForecast.icon_url;
+                          var wind = tenDayForecast.wspd.english
+                  })
+          }
+      else {
+        var maxTemp , minTemp;
+        var weatherURL = "https://api.wunderground.com/api/517830656e79f22a/history_"
+        var lastYearDate = "20160115";
+            weatherURL = weatherURL + lastYearDate + "/q/" + selectedState + "/" + selectedCity + ".json",
+          $.ajax({
+               url: weatherURL + lastYearDate + "/q/" + selectedState + "/" + selectedCity + ".json",
+               method: "GET",
+                })
+                 .done(function(historicalWeather) {
+                    var lastYearWeather = historicalWeather.history.dailysummary[0];
+                    maxTemp = lastYearWeather.maxtempi ;
+                    minTemp = lastYearWeather.mintempi ;
+
+                })
+      }
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+///Modal Section
+$(document).on("click", ".gameRow" , function(){
+
+ var printGame = this.childNodes[0].innerText;
+ var printDate = this.childNodes[1].innerText;
+ var printTime = this.childNodes[2].innerText
+ $('#modalh2').text(printGame);
+ $('#modalDate').text(printDate);
+ $('#modalTime').text(printTime);
+ runWeather();
+});
