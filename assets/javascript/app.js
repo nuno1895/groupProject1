@@ -4,7 +4,7 @@ var selectedTeam, selectedState, selectedCity, queryTeam,timesTeamQuery, selecte
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Countdown to Opening day Calculations
 var daysToOD ,hoursToOD , minsToOD ,secsToOD, epochDelta, epochTimeNow ;
-var p1 = $("<p class='countD'>Countdown To Opening Day 2016</p><p class='countD'>Opening Day is April 2, 2017</p><p class='countD'>First game starts </p>");
+var p1 = $("<p class='countD'>Countdown To Opening Day - April 2, 2017</p><p class='countD'>First game starts in: </p>");
 var p = $("<p class='countD'>");
   
   p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
