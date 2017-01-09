@@ -2,6 +2,7 @@
 var selectedTeam, selectedState, selectedCity, queryTeam,timesTeamQuery, selectedTimesTeam ;
 $("#resultsSectionId").hide();
 $("#clearButton").hide();
+$('#logosHere').hide();
 
 
 var config = {
@@ -13,13 +14,23 @@ var config = {
  };
  firebase.initializeApp(config);
 
-
+//  Set the button alert's timeout to run three seconds after the function's called.
+setTimeout(function() {
+    $('#countDown').hide();
+    $('#logosHere').show();
+    var newDiv= $("<div id='instructions'>");
+        newDiv.text("Click a team logo to get ticket info and more!");
+        $("#logosHere").prepend(newDiv);
+        $("#preCopyRight").text(p1[0].outerText);
+        $("#postCopyRight").text(p1[1].outerText + " " + p[0].outerText);
+        
+  }, 2500);
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Countdown to Opening day Calculations
 var daysToOD ,hoursToOD , minsToOD ,secsToOD, epochDelta, epochTimeNow ;
-var p1 = $("<p class='countD'>Countdown To Opening Day - April 2, 2017</p><p class='countD'>First game starts in: </p>");
-var p = $("<p class='countD'>");
+var p1 = $("<p class='countD col-lg-11' id='lineOne'>Countdown To Opening Day - April 2, 2017</p><p class='countD col-lg-11' id='lineTwo'>First game starts in: </p>");
+var p = $("<h1 class='countD col-lg-11' id='clock'>");
   
   p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
   $('#openingDay').append(p1);
@@ -37,7 +48,7 @@ function countDown(){
    minsToOD = Math.floor(((epochDelta % 86400) % 3600)/60);
    secsToOD = Math.floor((((epochDelta % 86400) % 3600) % 60));
  
-  p = $("<p class='countD'>");
+  p = $("<h1 class='countD col-lg-11' id='clock'>");
   p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
   $('#openingDay').html(p1).append(p)
 }
@@ -111,6 +122,7 @@ $(document).on("click", ".team" , function(){
       gameTime += count1;
       $("#event-table > tbody").append("<tr data-toggle='modal' data-target='#Modal1' class='gameRow'><td id=" + gameEvent + ">" + name + "</td><td id=" + gameDay +">" + localStartDate +"</td><td id=" + gameTime +">" +startTime + "</td></tr>");
     }
+    $("#clearButton").show();
   });
   
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -118,6 +130,8 @@ $(document).on("click", ".team" , function(){
   $("#clearResults").on('click', function() {
     $("tbody").empty();
     $("#resultsTarget").empty();
+    $("#resultsSectionId").hide();
+    $("#clearButton").hide();
   });
 
 

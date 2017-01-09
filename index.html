@@ -14,21 +14,32 @@
     @font-face {
     font-family: cubsfont;
     src: url(assets/MLBCUBS_.TTF);
-}
+    }
+</style>
+ <style> 
+    @font-face {
+    font-family: ticketfont;
+    src: url(assets/Ticketing.TTF);
+    }
 </style>
     <title>The Ultimate Event Tool</title>
   </head>
 
 <body>
-  <div class="jumbotron">
+  <div class="jumbotron" id="header">
     <div class="container">
         <h1> Major League Baseball Game Planner</h1>
       </div>
     </div>
-<div id="openingDay"></div>
+  <div class="jumbotron" id="countDown">
+    <div class="container">
+      <div id="openingDay"></div>
+      
+    </div>
+  </div>
 
 <div id="logosHere">
-<section>
+<section id="section1">
     <img class="team col-lg-1 col-lg-offset-1" src="assets/images/Orioles.jpg" alt="Orioles" data-team="Baltimore Orioles" data-teamtimes=Orioles data-state="MD" data-city="Baltimore"  >
 
      <img class="team col-lg-1" src="assets/images/Diamondbacks.jpg" alt="Diamondbacks" data-team=" Arizona Diamondbacks" data-teamtimes="Diamondbacks" data-state="AZ" data-city="Phoenix">
@@ -67,7 +78,6 @@
 
      <img class="team col-lg-1 " src="assets/images/Mets.jpg" alt="Mets" data-team="New York Mets" data-teamtimes="mets" data-state="NY" data-city="Corona">
 
-
      <img class="team col-lg-1 " src="assets/images/Yankees.jpg" alt="Yankees" data-team="New York Yankees" data-teamtimes="yankees" data-state="NY" data-city="Bronx">
 
      <img class="team col-lg-1 " src="assets/images/Phillies.jpg" alt="Phillies" data-team="Philadelphia Phillies" data-teamtimes="Phillies" data-state="PA" data-city="Philadelphia">
@@ -76,7 +86,7 @@
 
    </section>
 
-   <section>
+   <section id="section3">
       <img class="team col-lg-1 col-lg-offset-1" src="assets/images/Pirates.jpg" alt="Pirates" data-team="Pittsburgh Pirates" data-teamtimes="PittsburghPirates"   data-state="PA" data-city="Pittsburgh">
 
       <img class="team col-lg-1" src="assets/images/Mariners.jpg" alt="Mariners" data-team="Seattle Mariners" data-teamtimes="Mariners"   data-state="WA" data-city="Seattle">
@@ -100,9 +110,7 @@
    
 </div>
 
- <div id=clearButton>
-    <button id=clearResults>Clear Results</button>
-  </div>
+ 
 
 <!-- SEARCH PARAMETERS AREA -->  
  <!-- <div class="container" id="formOne">
@@ -164,7 +172,7 @@
     </div>
 
   <!-- >>>>>>>>>>> Results Section <<<<<<<<< -->
- <div id="resultsSectionId" class="container">
+ <div id="resultsSectionId" class="container col-lg-8 col-lg-offset-2">
           <div class="panel">
             <div class="panel-heading">
               <h3 class="panel-title"><strong>Event Info</strong></h3>
@@ -185,6 +193,10 @@
           </div>
   </div>  
 
+ <div id=clearButton>
+    <button type="button" class="col-md-2 col-lg-offset-5 btn btn-primary active" id=clearResults>Clear Results</button>
+  </div>
+
   <!-- >>>>>>>>>>> Results Section <<<<<<<<< -->
  <div class="container resultsSection">
    <div class="row" id="resultsTarget">
@@ -195,6 +207,13 @@
   <!-- >>>>>>>>>>> Footer Section <<<<<<<<< -->
   <div class="footer container-fluid">
   </div>
+  <footer class="footer">
+    <div class="container">
+      <div id="preCopyRight"></div>
+      <p id="copyrightArea">Copyright 2017 #greenmonkeys</p>
+      <div id="postCopyRight"></div>
+    </div>
+  </footer>
 
 
 <!-- Including scripts here -->

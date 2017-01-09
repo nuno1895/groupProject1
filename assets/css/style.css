@@ -12,10 +12,12 @@ div[class^='container']{
 	padding: 0;
 }
 
-.jumbotron {
+#header {
 	background-color: #253964;
 	color: white;
 	text-align: center;
+	margin-bottom: 0px;
+	border-top: 5px solid red;
 }
 
 #formOne {
@@ -51,12 +53,37 @@ img:hover, .gameEvent {
 .countD{
 	font-family: 'Permanent Marker', cursive;
 	text-align: center;
-	font-size: 26px;
 }
 
-section{
-
+#lineOne {
+	text-decoration: underline;
+	font-size: 50px;
+	margin-top: 40px;
 }
+
+#lineTwo {
+	font-size: 40px;
+}
+
+#clock {
+	color: #DC143C;
+	font-size: 55px;
+}
+.countD{
+	width:100%;
+}
+#countDown {
+	background-color: white;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	color: #2C464F;
+	border:3px solid grey;
+	height: 480px;
+}
+
+/*section{
+
+}*/
 #modalDate, #modalTime {
 	display: inline-block;
 }
@@ -123,5 +150,42 @@ section{
 
 h1 {
 	font-family: cubsfont;
+	font-size: 80px;
 }
 
+footer {
+	text-align: center;
+	background-color: #778899;
+	color: white;
+	margin-top: 0px;
+	padding-top:8px; 
+}
+#instructions{
+	font-size: 28px;
+	text-align: center;
+	padding:10px 0px 10px 0px;
+	margin: 15px 0px 15px 0px;
+	font-family: ticketfont;
+}
+#copyrightArea{
+	display: inline-block;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+#preCopyRight, #postCopyRight {
+	display:inline-block;
+	color: white;
+	font-weight: bold;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+section{
+	padding: 15px 0px 15px 0px;
+}
+#logosHere{
+ height:470px;
+}
+
+#clearButton{
+	margin: 12px 0px 12px 0px;
+}
