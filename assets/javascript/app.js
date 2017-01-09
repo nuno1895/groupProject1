@@ -94,11 +94,14 @@ $(document).on("click", ".team" , function(){
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // NY Times Search
-  var  appKey = "bd02f499a8474a05bd68ce25460bbc9f"
-  var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-  url += "?api-key=" + appKey ;
-  url += "&q=" +  timesTeamQuery;
-   console.log(url);
+var qTerm =selectedCity + " " + selectedTeam;
+var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+url += '?' + $.param({
+  'api-key': "bd02f499a8474a05bd68ce25460bbc9f",
+  'q': qTerm,
+  'fq': 'section_name:("Sports")',
+  'sort': "newest"
+});
   $.ajax({
     url: url,
     method: 'GET',
