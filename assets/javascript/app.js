@@ -4,8 +4,8 @@ var selectedTeam, selectedState, selectedCity, queryTeam,timesTeamQuery, selecte
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Countdown to Opening day Calculations
 var daysToOD ,hoursToOD , minsToOD ,secsToOD, epochDelta, epochTimeNow ;
-var p1 = $("<p>Countdown To Opening Day 2016</p><p>Opening Day is April 2, 2017</p><p>First game starts </p>");
-var p = $("<p>");
+var p1 = $("<p class='countD'>Countdown To Opening Day 2016</p><p class='countD'>Opening Day is April 2, 2017</p><p class='countD'>First game starts </p>");
+var p = $("<p class='countD'>");
   
   p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
   $('#openingDay').append(p1);
@@ -23,7 +23,7 @@ function countDown(){
    minsToOD = Math.floor(((epochDelta % 86400) % 3600)/60);
    secsToOD = Math.floor((((epochDelta % 86400) % 3600) % 60));
  
-  p = $("<p>");
+  p = $("<p class='countD'>");
   p.text(daysToOD + " days " + hoursToOD + " hours " + minsToOD + " minutes " + secsToOD + " seconds");
   $('#openingDay').html(p1).append(p)
 }
