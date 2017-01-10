@@ -44,7 +44,7 @@ div[class^='container']{
 
 }
 img {
-	width: 7%;
+	width: 80px;
 }
 img:hover, .gameEvent {
 	cursor: pointer;
@@ -188,4 +188,9 @@ section{
 
 #clearButton{
 	margin: 12px 0px 12px 0px;
+}
+
+#h1team{
+	text-align: center;
+	margin-top: -30px;
 }

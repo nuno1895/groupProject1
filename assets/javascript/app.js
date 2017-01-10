@@ -3,6 +3,7 @@ var selectedTeam, selectedState, selectedCity, queryTeam,timesTeamQuery, selecte
 $("#resultsSectionId").hide();
 $("#clearButton").hide();
 $('#logosHere').hide();
+$('#stat-table').hide()
 
 
 var config = {
@@ -14,16 +15,13 @@ var config = {
  };
 
  firebase.initializeApp(config);
- var database = firebase.database();
 
-database.ref('Philadelphia Phillies').on("value", function(snapshot){
-  console.log("Snapshot", snapshot.key)
-  database.ref(snapshot.key).on("child_added", function(sp){
+// var database = firebase.database();
+// database.ref("Team A").on("value", function(snapshot){
+// database.ref(snapshot.key).on("child_added", function(sp){
+//   console.log(sp);
+// }
 
-    console.log(sp.key + ': ' +sp.val());
-    // console.log('value' + sp.val())
-  });
-});
 
 //  Set the button alert's timeout to run three seconds after the function's called.
 setTimeout(function() {
@@ -73,10 +71,11 @@ if (epochDelta < 0){
 ///////////////////////////////////////////////////////////////////////////////////////////
 //start of button click function for favorite team
 $(document).on("click", ".team" , function(){
-  
+  // $("tr").empty();
   $("#resultsTarget").empty(); // Clear previous search result
   $("#resultsSectionId").show();
   $("#clearButton").show();
+  $('#stat-table').show()
  
   selectedTeam = $(this).data("team")
   selectedState= $(this).data("state")
@@ -85,7 +84,51 @@ $(document).on("click", ".team" , function(){
   timesTeamQuery = selectedTimesTeam.toLowerCase()
   queryTeam = selectedTeam;
   
+  $('#h1team').text(selectedTeam);
   
+  var database = firebase.database();
+///////////////childObject
+    database.ref(selectedTeam).on("value", function(snapshot){
+  // console.log("Snapshot", snapshot.key) // returns the childObject
+
+///////////// aka 'Philadelphia Phillies'
+    database.ref(snapshot.key).on("child_added", function(sp){
+     //console.log(sp.key + ': ' +sp.val());
+     var teamArrayPosition = [sp.key]
+    // console.log(philliesArrayPosition);
+     var teamArrayStat = [sp.val()];
+    // console.log('value' + sp.val())
+    for (var c= 0 ; c < teamArrayPosition.length; c++) {
+    $("#statsData").append("<td>" + teamArrayStat[c] + "</td>");
+
+    }
+  });
+});
+
+
+database.ref("Team A").on("value", function(snapshot){
+database.ref(snapshot.key).on("child_added", function(sp){
+  // var teamAObj = sp.exportVal();
+   // console.log(sp.exportVal());
+   
+   var teamAObj = sp.exportVal();
+    var arrayofPlayers = [];
+    //console.log(sp.orderByChild("LINEUP"));
+    for (var r = 0 ; r < 2; r++) {
+      
+    arrayofPlayers.push(Object.keys(teamAObj));
+    }
+     var battingOrder = arrayofPlayers[0];
+     var pitchingOrder = arrayofPlayers[1];
+     console.log(battingOrder, pitchingOrder);
+});
+
+});
+
+
+
+
+
   var stateId, startDate, endDate; //  initialize variables for search
   // 1) get content from the form
   
