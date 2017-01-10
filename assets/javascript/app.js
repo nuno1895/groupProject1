@@ -12,7 +12,18 @@ var config = {
    storageBucket: "rcbgroup1.appspot.com",
    messagingSenderId: "444807120694"
  };
+
  firebase.initializeApp(config);
+ var database = firebase.database();
+
+database.ref('Philadelphia Phillies').on("value", function(snapshot){
+  console.log("Snapshot", snapshot.key)
+  database.ref(snapshot.key).on("child_added", function(sp){
+
+    console.log(sp.key + ': ' +sp.val());
+    // console.log('value' + sp.val())
+  });
+});
 
 //  Set the button alert's timeout to run three seconds after the function's called.
 setTimeout(function() {
